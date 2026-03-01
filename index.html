@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FP3級 過去問クイズ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <div class="title">FP3級 過去問アプリ</div>
+      <div class="subtitle">過去問を年度・月で選んで学習</div>
+    </div>
+    <div class="header-actions">
+      <button id="btnHome" class="btn secondary" title="メニューへ戻る">メニュー</button>
+      <button id="btnReset" class="btn danger" title="現在の回の学習状況をリセット">リセット</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="viewMenu" class="card">
+      <h1>過去問を選択</h1>
+      <div class="muted">メニューから年度・月を選択して開始します。</div>
+
+      <div class="grid" id="examGrid"></div>
+
+      <div class="settings">
+        <h2>出題設定</h2>
+        <label class="row">
+          <input type="checkbox" id="optShuffleQuestions" checked />
+          <span>問題順をシャッフル</span>
+        </label>
+        <label class="row">
+          <input type="checkbox" id="optShuffleChoices" checked />
+          <span>選択肢順をシャッフル</span>
+        </label>
+        <label class="row">
+          <input type="checkbox" id="optShowExplanation" checked />
+          <span>解答後に解説を表示</span>
+        </label>
+        <label class="row">
+          <input type="checkbox" id="optAutoNext" />
+          <span>正解時に自動で次へ（1.0秒）</span>
+        </label>
+      </div>
+
+      <div class="note">
+        <div class="note-title">注意</div>
+        <ul>
+          <li>本アプリはアップロードいただいた設問データを元に動作します。</li>
+          <li>法改正等により正誤が変わる可能性があります。必要に応じて公式資料で確認してください。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="viewQuiz" class="card hidden">
+      <div class="quiz-top">
+        <div>
+          <div id="examTitle" class="h1"></div>
+          <div id="progressText" class="muted"></div>
+        </div>
+        <div class="pill" id="scorePill">正解 0 / 0</div>
+      </div>
+
+      <div class="question-box">
+        <div id="questionId" class="qid"></div>
+        <div id="questionText" class="qtext"></div>
+      </div>
+
+      <div id="choicesBox" class="choices"></div>
+
+      <div id="feedback" class="feedback hidden"></div>
+
+      <div class="quiz-actions">
+        <button id="btnPrev" class="btn secondary">戻る</button>
+        <button id="btnSkip" class="btn secondary">スキップ</button>
+        <button id="btnNext" class="btn primary">次へ</button>
+      </div>
+
+      <div class="quiz-actions">
+        <button id="btnFinish" class="btn">結果を見る</button>
+        <button id="btnReviewWrong" class="btn secondary">不正解のみ復習</button>
+      </div>
+    </section>
+
+    <section id="viewResult" class="card hidden">
+      <h1>結果</h1>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-label">スコア</div>
+          <div id="resultScore" class="result-value"></div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">正解数</div>
+          <div id="resultCorrect" class="result-value"></div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">不正解数</div>
+          <div id="resultWrong" class="result-value"></div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">未回答</div>
+          <div id="resultUnanswered" class="result-value"></div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btnRetry" class="btn primary">もう一度（全問）</button>
+        <button id="btnRetryWrong" class="btn secondary">不正解のみ</button>
+        <button id="btnBackMenu" class="btn">メニューへ</button>
+      </div>
+
+      <details class="review">
+        <summary>解答一覧（クリックで展開）</summary>
+        <div id="reviewList" class="review-list"></div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="muted">FP3級 過去問クイズ（ローカル動作）</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
