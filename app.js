@@ -75,7 +75,7 @@ function polishSpecificExplanation(q){
   const answerText = isTrueFalseQuestion(q) ? q.choices[q.answer] : `「${q.choices[q.answer]}」`;
   if(!ex) return `結論として、正解は${answerText}です。設問のキーワードに対応する制度の原則を押さえたうえで、要件・金額・対象者・期間のどこがポイントになるかを確認すると判断しやすくなります。`;
   if(isTrueFalseQuestion(q)){
-    return `結論として、正解は「${q.choices[q.answer]}」です。${ex} つまり、設問文は制度の原則に照らして${q.answer === 0 ? '正しい内容' : '誤った内容'}になっています。`;
+    return `結論として、正解は「${q.choices[q.answer]}」です。${ex}`;
   }
   return `正解は「${q.choices[q.answer]}」です。${ex}`;
 }
