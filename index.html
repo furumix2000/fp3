@@ -3,124 +3,175 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FP3級 過去問クイズ</title>
+  <title>FP3級 完全版 過去問アプリ</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="app-header">
     <div class="brand">
-      <div class="title">FP3級 過去問アプリ</div>
-      <div class="subtitle">過去問を年度・月で選んで学習（2022年1月〜2025年5月）</div>
+      <div class="eyebrow">LOCAL WEB APP</div>
+      <div class="title">FP3級 完全版 過去問アプリ</div>
+      <div class="subtitle">過去問演習・苦手復習・ブックマーク対応</div>
     </div>
     <div class="header-actions">
-      <button id="btnHome" class="btn secondary" title="メニューへ戻る">メニュー</button>
-      <button id="btnReset" class="btn danger" title="現在の回の学習状況をリセット">リセット</button>
+      <button id="btnHome" class="btn secondary">ホーム</button>
+      <button id="btnResetAll" class="btn danger">学習記録を全消去</button>
     </div>
   </header>
 
   <main class="container">
-    <section id="viewMenu" class="card">
-      <h1>過去問を選択</h1>
-      <div class="muted">メニューから年度・月を選択して開始します。</div>
-
-      <div class="grid" id="examGrid"></div>
-
-      <div class="settings">
-        <h2>出題設定</h2>
-        <label class="row">
-          <input type="checkbox" id="optShuffleQuestions" checked />
-          <span>問題順をシャッフル</span>
-        </label>
-        <label class="row">
-          <input type="checkbox" id="optShuffleChoices" checked />
-          <span>選択肢順をシャッフル</span>
-        </label>
-        <label class="row">
-          <input type="checkbox" id="optShowExplanation" checked />
-          <span>解答後に解説を表示</span>
-        </label>
-        <label class="row">
-          <input type="checkbox" id="optAutoNext" />
-          <span>正解時に自動で次へ（1.0秒）</span>
-        </label>
-      </div>
-
-      <div class="note">
-        <div class="note-title">注意</div>
-        <ul>
-          <li>本アプリは既存データに加え、アップロードされたPDF（2022年1月・5月・9月、2023年1月・9月）を反映しています。</li>
-          <li>追加分の正解は各PDF末尾の模範解答を参照して再確認しています。法改正等による最新実務は必要に応じて公式資料でも確認してください。</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="viewQuiz" class="card hidden">
-      <div class="quiz-top">
+    <section id="viewMenu" class="view">
+      <div class="hero card">
         <div>
-          <div id="examTitle" class="h1"></div>
-          <div id="progressText" class="muted"></div>
+          <div class="hero-title">過去問を選んで、そのまま演習できます。</div>
+          <div class="hero-subtitle">各PDFの模範解答を基準に正解を反映。解説は1〜2文の自然な日本語で統一しています。</div>
         </div>
-        <div class="pill" id="scorePill">正解 0 / 0</div>
+        <div class="hero-badges">
+          <span class="pill info" id="heroExamCount">0回分</span>
+          <span class="pill info" id="heroQuestionCount">0問</span>
+        </div>
       </div>
 
-      <div class="question-box">
-        <div id="questionId" class="qid"></div>
-        <div id="questionText" class="qtext"></div>
+      <div class="stats-grid" id="dashboardStats"></div>
+
+      <div class="menu-grid">
+        <section class="card">
+          <div class="section-head">
+            <h2>出題モード</h2>
+            <div class="muted">試験回ごとにフル演習または短時間演習ができます。</div>
+          </div>
+          <div class="mode-grid">
+            <label class="mode-card active">
+              <input type="radio" name="quizMode" value="full" checked />
+              <span class="mode-name">本試験60問</span>
+              <span class="mode-meta">その回を全部解く</span>
+            </label>
+            <label class="mode-card">
+              <input type="radio" name="quizMode" value="random20" />
+              <span class="mode-name">ランダム20問</span>
+              <span class="mode-meta">短時間で演習</span>
+            </label>
+            <label class="mode-card">
+              <input type="radio" name="quizMode" value="random10" />
+              <span class="mode-name">ランダム10問</span>
+              <span class="mode-meta">スキマ学習向け</span>
+            </label>
+            <label class="mode-card">
+              <input type="radio" name="quizMode" value="wrong" />
+              <span class="mode-name">不正解のみ</span>
+              <span class="mode-meta">前回の弱点を復習</span>
+            </label>
+            <label class="mode-card">
+              <input type="radio" name="quizMode" value="bookmarks" />
+              <span class="mode-name">ブックマーク</span>
+              <span class="mode-meta">あとで見直す問題</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <h2>出題設定</h2>
+            <div class="muted">本番風にも、学習モードにも切り替えられます。</div>
+          </div>
+          <div class="settings-list">
+            <label class="setting-row"><input type="checkbox" id="optShuffleQuestions" checked />問題順をシャッフル</label>
+            <label class="setting-row"><input type="checkbox" id="optShuffleChoices" checked />選択肢順をシャッフル</label>
+            <label class="setting-row"><input type="checkbox" id="optShowExplanation" checked />解答直後に解説を表示</label>
+            <label class="setting-row"><input type="checkbox" id="optAutoNext" />正解時に0.8秒後に次へ進む</label>
+          </div>
+          <div class="search-box">
+            <input id="examSearch" type="search" placeholder="年度・月で検索（例：2023 9月）" />
+          </div>
+        </section>
       </div>
 
-      <div id="choicesBox" class="choices"></div>
+      <section class="card">
+        <div class="section-head">
+          <h2>収録試験</h2>
+          <div class="muted">進捗率、前回スコア、ブックマーク数を表示します。</div>
+        </div>
+        <div id="examGrid" class="exam-grid"></div>
+      </section>
+    </section>
 
-      <div id="feedback" class="feedback hidden"></div>
+    <section id="viewQuiz" class="view hidden">
+      <div class="card quiz-card">
+        <div class="quiz-top">
+          <div>
+            <div id="examTitle" class="quiz-title"></div>
+            <div id="quizMeta" class="muted"></div>
+          </div>
+          <div class="quiz-top-right">
+            <button id="btnBookmark" class="btn secondary">☆ ブックマーク</button>
+            <div id="scorePill" class="pill score">0 / 0</div>
+          </div>
+        </div>
 
-      <div class="quiz-actions">
-        <button id="btnPrev" class="btn secondary">戻る</button>
-        <button id="btnSkip" class="btn secondary">スキップ</button>
-        <button id="btnNext" class="btn primary">次へ</button>
-      </div>
+        <div class="progress-wrap">
+          <div class="progress-head">
+            <span id="progressText">1 / 10</span>
+            <span id="questionCategory" class="tag category">総合</span>
+          </div>
+          <div class="progress-bar"><div id="progressBar" class="progress-fill"></div></div>
+        </div>
 
-      <div class="quiz-actions">
-        <button id="btnFinish" class="btn">結果を見る</button>
-        <button id="btnReviewWrong" class="btn secondary">不正解のみ復習</button>
+        <div class="question-box">
+          <div class="question-head">
+            <div id="questionId" class="qid">設問1</div>
+            <div id="questionTopic" class="small-topic"></div>
+          </div>
+          <div id="questionText" class="qtext"></div>
+        </div>
+
+        <div id="choicesBox" class="choices"></div>
+
+        <div id="feedback" class="feedback hidden"></div>
+
+        <div class="quiz-actions">
+          <button id="btnPrev" class="btn secondary">前へ</button>
+          <button id="btnSkip" class="btn secondary">スキップ</button>
+          <button id="btnNext" class="btn primary">次へ</button>
+          <button id="btnFinish" class="btn">結果を見る</button>
+        </div>
       </div>
     </section>
 
-    <section id="viewResult" class="card hidden">
-      <h1>結果</h1>
-      <div class="result-grid">
-        <div class="result-card">
-          <div class="result-label">スコア</div>
-          <div id="resultScore" class="result-value"></div>
+    <section id="viewResult" class="view hidden">
+      <div class="card">
+        <div class="section-head">
+          <h2>結果</h2>
+          <div id="resultSub" class="muted"></div>
         </div>
-        <div class="result-card">
-          <div class="result-label">正解数</div>
-          <div id="resultCorrect" class="result-value"></div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">不正解数</div>
-          <div id="resultWrong" class="result-value"></div>
-        </div>
-        <div class="result-card">
-          <div class="result-label">未回答</div>
-          <div id="resultUnanswered" class="result-value"></div>
-        </div>
-      </div>
 
-      <div class="result-actions">
-        <button id="btnRetry" class="btn primary">もう一度（全問）</button>
-        <button id="btnRetryWrong" class="btn secondary">不正解のみ</button>
-        <button id="btnBackMenu" class="btn">メニューへ</button>
-      </div>
+        <div class="result-grid">
+          <div class="result-card"><div class="result-label">正答率</div><div id="resultScore" class="result-value"></div></div>
+          <div class="result-card"><div class="result-label">正解</div><div id="resultCorrect" class="result-value"></div></div>
+          <div class="result-card"><div class="result-label">不正解</div><div id="resultWrong" class="result-value"></div></div>
+          <div class="result-card"><div class="result-label">未回答</div><div id="resultUnanswered" class="result-value"></div></div>
+        </div>
 
-      <details class="review">
-        <summary>解答一覧（クリックで展開）</summary>
-        <div id="reviewList" class="review-list"></div>
-      </details>
+        <div class="result-actions">
+          <button id="btnRetrySame" class="btn primary">同じ条件でもう一度</button>
+          <button id="btnRetryWrong" class="btn secondary">不正解だけ復習</button>
+          <button id="btnBackMenu" class="btn">ホームへ戻る</button>
+        </div>
+
+        <div class="card inset-card">
+          <div class="section-head">
+            <h3>分野別の結果</h3>
+            <div class="muted">弱い分野の把握に使えます。</div>
+          </div>
+          <div id="categoryStats" class="category-stats"></div>
+        </div>
+
+        <details class="review">
+          <summary>解答一覧を表示</summary>
+          <div id="reviewList" class="review-list"></div>
+        </details>
+      </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <div class="muted">FP3級 過去問クイズ（ローカル動作）</div>
-  </footer>
 
   <script src="app.js"></script>
 </body>
