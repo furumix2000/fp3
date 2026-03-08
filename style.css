@@ -134,11 +134,14 @@ body{
 .qtext{line-height:1.9;font-size:18px}
 .choices{display:grid;gap:12px}
 .choice{
-  border:1px solid var(--line);border-radius:18px;padding:14px 16px;background:rgba(255,255,255,.02);
-  cursor:pointer;transition:.12s ease;line-height:1.75
+  border:1px solid var(--line);border-radius:18px;padding:14px 16px;background:rgba(255,255,255,.04);
+  cursor:pointer;transition:.12s ease;line-height:1.75;color:#ffffff;font-weight:800
 }
+.choice strong{color:#ffffff}
+.choice:nth-child(1){background:linear-gradient(180deg, rgba(46, 204, 113, .18), rgba(46, 204, 113, .08));border-color:rgba(46,204,113,.28)}
+.choice:nth-child(2){background:linear-gradient(180deg, rgba(231, 76, 60, .18), rgba(231, 76, 60, .08));border-color:rgba(231,76,60,.28)}
 .choice:hover{transform:translateY(-1px);border-color:rgba(120,216,255,.4)}
-.choice.selected{border-color:rgba(120,216,255,.58);box-shadow:0 0 0 2px rgba(120,216,255,.12)}
+.choice.selected{border-color:rgba(120,216,255,.7);box-shadow:0 0 0 2px rgba(120,216,255,.18)}
 .choice.correct{border-color:rgba(113,241,182,.58);background:rgba(113,241,182,.08)}
 .choice.wrong{border-color:rgba(255,143,143,.58);background:rgba(255,143,143,.08)}
 
